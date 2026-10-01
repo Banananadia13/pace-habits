@@ -4,6 +4,32 @@ The success metric: *can a 70-year-old client open this every day for two years
 and effortlessly build a life-changing habit?* Every decision below traces back
 to that sentence, and to the Four Laws applied to the app itself.
 
+## Visual identity — PACE Health design system
+
+The app is styled to the PACE Health design system (`pacedesignsystem.md`), the
+same reference used for the *Making Exercise a Habit* workshop deck, so the two
+read as one piece of work.
+
+- **Navy dominates** (`#1C194E`) — headings, the primary button, filled
+  calendar days. **PACE Green** (`#76BC1E` / `#92D050`) is the single sharp
+  accent: kickers, positive states, the completed-habit card.
+- **White ground, never cream.** Cards carry light lavender (`#F4F4F9`) and
+  light green (`#E3F0D2`) tints, alternating the way the deck's cards do.
+- **Cambria headings, Calibri body**, no third family. On iOS neither ships, so
+  the stacks fall back to Georgia and the system sans — close in feel, and the
+  layout is set in relative units so nothing breaks.
+- **No accent rules, no edge stripes, no colour-only signalling**, per §8 of the
+  system.
+
+Two deliberate deviations, both documented in `theme.css`:
+
+1. **A darkened green (`#41721A`) for small text on white.** The brand green is
+   ~2.4:1 on white, which fails WCAG AA at body size. The brand green is still
+   used for fills, where contrast is carried by the surface.
+2. **Dark mode is invented**, since the design system covers print and slides
+   only. It's derived from the navy ramp; on a dark ground the primary button
+   flips to bright green with navy text, because a navy button would disappear.
+
 ## The app follows its own advice
 
 | Law | How the app embodies it |
