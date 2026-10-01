@@ -1,36 +1,92 @@
 /* ---------------------------------------------------------------------------
-   PACE Habits design system.
-   Warm, calm, large. One accent. Lots of air.
+   PACE Habits — PACE Health design system.
+
+   Navy dominates (~60%), green is the single sharp accent, lavender and
+   light-green tints carry the cards.  White ground, never cream.
+   Cambria for headings, Calibri for body — no third family.
+
+   Two deliberate deviations from the deck spec, both for accessibility
+   (this app is used daily by older adults on small screens):
+     1. --accent-strong (#41721A) is a darkened PACE Green used ONLY for small
+        text on white. The brand 76BC1E is ~2.4:1 on white, which fails WCAG AA
+        for body-size text. 76BC1E is still used for fills and positive states,
+        where contrast is carried by the surface, not the glyph.
+     2. Cards carry a very light shadow for depth on a phone. The deck has no
+        shadows, but it also has no scrolling or touch targets.
 --------------------------------------------------------------------------- */
 
 :root {
-  --bg: #f7f4ef;
-  --card: #ffffff;
-  --ink: #1c2b27;
-  --muted: #6b7a75;
-  --line: #e9e4db;
-  --accent: #e0703a;
-  --accent-soft: #fbeade;
-  --pine: #2c5f55;
-  --pine-soft: #e7efec;
-  --danger: #b3452e;
-  --shadow: 0 6px 24px rgba(28, 43, 39, 0.07);
+  /* ground + surfaces */
+  --bg: #ffffff;
+  --card: #f4f4f9;          /* light lavender card */
+  --card-alt: #e3f0d2;      /* light green card */
+  --tint: #e4e3f0;          /* mid lavender tint */
+
+  /* ink */
+  --ink: #1c194e;           /* PACE Navy — titles, dominant */
+  --ink-body: #2a2760;      /* Navy Body — body copy */
+  --muted: #716f94;         /* muted lavender-grey — captions, footers */
+  --line: #e4e3f0;
+
+  /* accent */
+  --accent: #76bc1e;        /* PACE Green — fills, positive states */
+  --accent-bright: #92d050; /* Bright Green — action bars, highlight fills */
+  --accent-strong: #41721a; /* contrast-safe green for small text on white */
+  --accent-soft: #e3f0d2;
+
+  /* status (traffic-light, used sparingly — never colour alone) */
+  --danger: #b8432f;
+  --warn: #c99323;
+
+  /* Action + filled-marker tokens. These are separate from --ink because --ink
+     inverts in dark mode; a button painted with --ink would go white-on-white. */
+  --btn-bg: #1c194e;        /* primary action */
+  --btn-fg: #ffffff;
+  --solid: #1c194e;         /* filled markers: tick, completed calendar days */
+  --on-solid: #ffffff;
+  --on-accent: #1c194e;     /* text on a green fill, both themes */
+
+  --on-dark: #ffffff;
+  --shadow: 0 4px 18px rgba(28, 25, 78, 0.07);
   --radius: 22px;
   --radius-sm: 14px;
+
+  --font-head: Cambria, "Hoefler Text", Georgia, "Times New Roman", serif;
+  --font-body: Calibri, "Segoe UI", -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Dark mode is not covered by the design system — derived here from the navy
+   ramp so the brand still reads at night. */
 [data-theme="dark"] {
-  --bg: #111815;
-  --card: #1b2521;
-  --ink: #edf3f0;
-  --muted: #93a49e;
-  --line: #2a3733;
-  --accent: #e87f4c;
-  --accent-soft: #3a2a20;
-  --pine: #6fae9f;
-  --pine-soft: #21332e;
-  --danger: #d96a51;
-  --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  --bg: #141230;
+  --card: #221f49;
+  --card-alt: #2b3a22;
+  --tint: #2a2760;
+
+  --ink: #ecebf5;
+  --ink-body: #d5d3e6;
+  --muted: #9d9bbd;
+  --line: #312d63;
+
+  --accent: #92d050;
+  --accent-bright: #92d050;
+  --accent-strong: #a8dc72;
+  --accent-soft: #2b3a22;
+
+  --danger: #e07a66;
+  --warn: #e0b253;
+
+  /* On a dark navy ground a navy button disappears, so the primary action
+     becomes the brand's bright green with navy text. Filled markers use Deep
+     Indigo so their white glyphs stay legible. */
+  --btn-bg: #92d050;
+  --btn-fg: #1c194e;
+  --solid: #3a3482;
+  --on-solid: #ffffff;
+  --on-accent: #1c194e;
+
+  --shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -39,8 +95,8 @@ html, body {
   margin: 0;
   padding: 0;
   background: var(--bg);
-  color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink-body);
+  font-family: var(--font-body);
   font-size: 17px;
   line-height: 1.45;
   min-height: 100%;
@@ -55,11 +111,19 @@ html, body {
 }
 
 /* ------- typography ------- */
-h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; letter-spacing: -0.02em; }
-h2 { font-size: 21px; line-height: 1.25; margin: 0 0 4px; letter-spacing: -0.01em; }
+h1 {
+  font-family: var(--font-head);
+  font-size: 30px; line-height: 1.2; margin: 0 0 6px;
+  letter-spacing: -0.01em; color: var(--ink);
+}
+h2 {
+  font-family: var(--font-head);
+  font-size: 21px; line-height: 1.25; margin: 0 0 4px; color: var(--ink);
+}
+b, strong { color: var(--ink); }
 .kicker {
-  font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--accent-strong); margin-bottom: 8px;
 }
 .muted { color: var(--muted); }
 .small { font-size: 14px; }
@@ -75,8 +139,8 @@ h2 { font-size: 21px; line-height: 1.25; margin: 0 0 4px; letter-spacing: -0.01e
   box-shadow: var(--shadow);
   margin-bottom: 16px;
 }
-.card.tinted { background: var(--pine-soft); box-shadow: none; }
-.card.warn { background: var(--accent-soft); box-shadow: none; }
+.card.tinted { background: var(--card-alt); box-shadow: none; }
+.card.warn { background: var(--card-alt); box-shadow: none; }
 
 /* ------- buttons ------- */
 button { font: inherit; color: inherit; }
@@ -86,7 +150,8 @@ button { font: inherit; color: inherit; }
   border-radius: 18px;
   padding: 18px 20px;
   font-size: 19px; font-weight: 700;
-  background: var(--accent); color: #fff;
+  font-family: var(--font-body);
+  background: var(--btn-bg); color: var(--btn-fg);
   transition: transform 0.12s ease, filter 0.15s ease;
   min-height: 60px;
 }
@@ -100,9 +165,8 @@ button { font: inherit; color: inherit; }
   background: transparent; color: var(--muted);
   font-weight: 600; min-height: 48px; padding: 12px;
 }
-.btn.done-state {
-  background: var(--pine); color: #fff;
-}
+/* positive state — mirrors the deck's bright-green action bar */
+.btn.done-state { background: var(--accent-bright); color: var(--on-accent); }
 .btn:disabled { opacity: 0.4; cursor: default; }
 .linklike {
   background: none; border: none; color: var(--muted);
@@ -113,44 +177,54 @@ button { font: inherit; color: inherit; }
 input[type="text"], input[type="time"], textarea {
   width: 100%;
   border: 1.5px solid var(--line);
-  background: var(--card);
+  background: var(--bg);
   color: var(--ink);
   border-radius: var(--radius-sm);
   padding: 14px 16px;
   font: inherit;
+  font-family: var(--font-body);
   outline: none;
 }
-input:focus, textarea:focus { border-color: var(--accent); }
+input:focus, textarea:focus { border-color: var(--accent-strong); }
 textarea { resize: vertical; min-height: 84px; }
 label.field { display: block; margin-bottom: 14px; }
-label.field span { display: block; font-size: 14px; font-weight: 650; margin-bottom: 6px; color: var(--muted); }
+label.field span {
+  display: block; font-size: 14px; font-weight: 650;
+  margin-bottom: 6px; color: var(--muted);
+}
 
 /* ------- chips ------- */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .chip {
-  border: 1.5px solid var(--line); background: var(--card);
+  border: 1.5px solid var(--line); background: var(--bg);
   border-radius: 999px; padding: 9px 14px;
-  font-size: 15px; cursor: pointer; color: var(--ink);
+  font-size: 15px; cursor: pointer; color: var(--ink-body);
   min-height: 40px;
 }
 .chip:active { background: var(--accent-soft); border-color: var(--accent); }
-.chip.selected { background: var(--accent-soft); border-color: var(--accent); font-weight: 650; }
+.chip.selected {
+  background: var(--accent-soft); border-color: var(--accent);
+  color: var(--ink); font-weight: 650;
+}
 
 /* ------- habit card on Home ------- */
-.habit-tiny { font-size: 23px; font-weight: 700; letter-spacing: -0.01em; margin: 2px 0 6px; }
+.habit-tiny {
+  font-family: var(--font-head);
+  font-size: 24px; font-weight: 700; margin: 2px 0 6px; color: var(--ink);
+}
 .habit-meta { color: var(--muted); font-size: 15px; margin-bottom: 16px; }
 .habit-meta div { margin-top: 2px; }
 
 .done-card {
   display: flex; align-items: center; gap: 14px;
-  background: var(--pine-soft); border-radius: 18px; padding: 16px 18px;
+  background: var(--accent-soft); border-radius: 18px; padding: 16px 18px;
 }
-.done-card .msg { font-weight: 650; }
+.done-card .msg { font-weight: 650; color: var(--ink); }
 .done-card .sub { font-size: 14px; color: var(--muted); }
 
 .checkmark {
   width: 44px; height: 44px; flex: none;
-  border-radius: 50%; background: var(--pine);
+  border-radius: 50%; background: var(--solid);
   display: grid; place-items: center;
   animation: pop 0.45s cubic-bezier(0.2, 1.6, 0.4, 1);
 }
@@ -158,29 +232,35 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
 
 /* ------- recovery banner ------- */
 .recovery {
-  background: var(--accent-soft);
+  background: var(--card-alt);
   border-radius: var(--radius-sm);
   padding: 14px 16px; margin-bottom: 14px;
-  font-size: 15px;
+  font-size: 15px; color: var(--ink-body);
 }
-.recovery b { display: block; margin-bottom: 2px; }
+.recovery b { display: block; margin-bottom: 2px; color: var(--ink); }
 
-/* ------- celebration overlay ------- */
+/* ------- celebration ------- */
 .celebrate-backdrop {
   position: fixed; inset: 0; z-index: 60;
   display: grid; place-items: center;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(28, 25, 78, 0.35);
   animation: fadein 0.2s ease;
 }
 .celebrate-card {
-  background: var(--card); border-radius: 26px;
+  background: var(--bg); border-radius: 26px;
   padding: 34px 38px; text-align: center;
   box-shadow: var(--shadow);
   animation: rise 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
   max-width: 320px;
 }
-.celebrate-card .vote { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-top: 14px; }
-.celebrate-card .who { font-size: 21px; font-weight: 700; margin-top: 4px; }
+.celebrate-card .vote {
+  font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent-strong); font-weight: 700; margin-top: 14px;
+}
+.celebrate-card .who {
+  font-family: var(--font-head);
+  font-size: 22px; font-weight: 700; margin-top: 4px; color: var(--ink);
+}
 .confetti {
   position: fixed; top: -12px; width: 10px; height: 14px;
   border-radius: 3px; z-index: 61;
@@ -191,17 +271,20 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
   100% { transform: translateY(105vh) rotate(540deg); opacity: 0.7; }
 }
 @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
-@keyframes rise { from { transform: translateY(24px) scale(0.95); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes rise {
+  from { transform: translateY(24px) scale(0.95); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
 
 /* ------- bottom sheet ------- */
 .sheet-backdrop {
   position: fixed; inset: 0; z-index: 50;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(28, 25, 78, 0.45);
   animation: fadein 0.2s ease;
 }
 .sheet {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 51;
-  background: var(--card);
+  background: var(--bg);
   border-radius: 26px 26px 0 0;
   padding: 26px 22px calc(26px + env(safe-area-inset-bottom));
   max-width: 560px; margin: 0 auto;
@@ -212,7 +295,7 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
 /* ------- tab bar ------- */
 .tabbar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
-  background: var(--card);
+  background: var(--bg);
   border-top: 1px solid var(--line);
   display: flex; justify-content: space-around;
   padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
@@ -226,7 +309,7 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
   padding: 6px 14px; min-width: 64px; min-height: 52px;
   border-radius: 12px;
 }
-.tab.active { color: var(--accent); }
+.tab.active { color: var(--ink); }
 .tab svg { width: 24px; height: 24px; }
 
 /* ------- stats ------- */
@@ -235,7 +318,11 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
   background: var(--card); border-radius: var(--radius-sm);
   padding: 16px; box-shadow: var(--shadow);
 }
-.stat .n { font-size: 30px; font-weight: 750; letter-spacing: -0.02em; }
+.stat:nth-child(2), .stat:nth-child(3) { background: var(--card-alt); }
+.stat .n {
+  font-family: var(--font-head);
+  font-size: 31px; font-weight: 700; color: var(--ink);
+}
 .stat .l { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
 
 /* ------- calendar ------- */
@@ -246,9 +333,12 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
   aspect-ratio: 1; display: grid; place-items: center;
   border-radius: 10px; font-size: 14px; color: var(--muted);
 }
-.cal-cell.done { background: var(--pine); color: #fff; font-weight: 700; }
+.cal-cell.done { background: var(--solid); color: var(--on-solid); font-weight: 700; }
 .cal-cell.today { outline: 2px solid var(--accent); outline-offset: -2px; }
-.cal-nav { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 20px; padding: 6px 12px; }
+.cal-nav {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 20px; padding: 6px 12px;
+}
 
 /* ------- toolkit rows ------- */
 .tool-row {
@@ -258,14 +348,15 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
   padding: 18px 20px; margin-bottom: 12px;
   display: flex; align-items: center; gap: 14px;
 }
-.tool-row .t { font-weight: 700; font-size: 17px; }
+.tool-row .t { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); }
 .tool-row .d { color: var(--muted); font-size: 14px; margin-top: 1px; }
+/* icon in a white circle — the design system's signature badge */
 .tool-icon {
-  width: 42px; height: 42px; flex: none; border-radius: 12px;
+  width: 42px; height: 42px; flex: none; border-radius: 50%;
   display: grid; place-items: center;
-  background: var(--pine-soft); color: var(--pine);
+  background: var(--bg); color: var(--ink);
 }
-.tool-icon.warm { background: var(--accent-soft); color: var(--accent); }
+.tool-icon.warm { background: var(--bg); color: var(--accent-strong); }
 
 /* ------- scorecard ------- */
 .score-row {
@@ -275,10 +366,11 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
 .score-row:last-child { border-bottom: none; }
 .score-mark {
   width: 42px; height: 42px; flex: none; border-radius: 50%;
-  border: 1.5px solid var(--line); background: var(--card);
+  border: 1.5px solid var(--line); background: var(--bg);
+  font-family: var(--font-head);
   font-size: 19px; font-weight: 800; cursor: pointer;
 }
-.score-mark.p { color: var(--pine); border-color: var(--pine); background: var(--pine-soft); }
+.score-mark.p { color: var(--accent-strong); border-color: var(--accent); background: var(--accent-soft); }
 .score-mark.m { color: var(--danger); border-color: var(--danger); }
 .score-mark.e { color: var(--muted); }
 .score-text { flex: 1; }
@@ -287,22 +379,23 @@ label.field span { display: block; font-size: 14px; font-weight: 650; margin-bot
 /* ------- wizard ------- */
 .wizard-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .progress-dots { display: flex; gap: 5px; }
-.progress-dots i {
-  width: 7px; height: 7px; border-radius: 50%; background: var(--line);
-}
+.progress-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
 .progress-dots i.on { background: var(--accent); }
 .wizard-actions { display: flex; gap: 10px; margin-top: 22px; }
 .wizard-actions .btn { flex: 1; }
 .plan-line { margin: 8px 0; padding-left: 14px; border-left: 3px solid var(--accent); }
-.plan-line .k { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 700; }
+.plan-line .k {
+  font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--muted); font-weight: 700;
+}
 
 /* ------- segmented ------- */
-.seg { display: flex; background: var(--bg); border-radius: 12px; padding: 4px; gap: 4px; }
+.seg { display: flex; background: var(--tint); border-radius: 12px; padding: 4px; gap: 4px; }
 .seg button {
   flex: 1; border: none; background: transparent; cursor: pointer;
   border-radius: 9px; padding: 10px; font-weight: 650; color: var(--muted); font-size: 15px;
 }
-.seg button.on { background: var(--card); color: var(--ink); box-shadow: var(--shadow); }
+.seg button.on { background: var(--bg); color: var(--ink); box-shadow: var(--shadow); }
 
 /* ------- misc ------- */
 .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }

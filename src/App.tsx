@@ -35,7 +35,7 @@ export default function App() {
         (pref === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
       document.documentElement.dataset.theme = dark ? "dark" : "light";
       const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute("content", dark ? "#111815" : "#F7F4EF");
+      if (meta) meta.setAttribute("content", dark ? "#141230" : "#FFFFFF");
     };
     apply();
     const mq = window.matchMedia("(prefers-color-scheme: dark)");

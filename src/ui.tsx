@@ -40,7 +40,8 @@ export function Sheet({ onClose, children }: { onClose: () => void; children: Re
   );
 }
 
-const CONFETTI_COLORS = ["#E0703A", "#2C5F55", "#F0A57C", "#97BC97", "#E8C547"];
+// PACE Health palette: navy, PACE green, bright green, indigo, mid lavender.
+const CONFETTI_COLORS = ["#1C194E", "#76BC1E", "#92D050", "#322D6E", "#E4E3F0"];
 
 export function Celebration({ identity }: { identity: string }) {
   const pieces = Array.from({ length: 22 }, (_, i) => ({
